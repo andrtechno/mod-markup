@@ -1,34 +1,90 @@
 <?php
 
-use yii\helpers\Html;
 use panix\engine\bootstrap\ActiveForm;
+use yii\helpers\ArrayHelper;
+use panix\mod\shop\models\Manufacturer;
+use panix\engine\jui\DatetimePicker;
+use panix\engine\Html;
+use panix\mod\shop\models\Category;
 
-$form = ActiveForm::begin(['id'=>'markup-form']);
+$form = ActiveForm::begin(['id' => 'markup-form']);
 
-
+/**
+ * @var \panix\mod\markup\models\Markup $model
+ * @var \panix\engine\bootstrap\ActiveForm $form
+ */
 ?>
 <div class="card">
     <div class="card-header">
         <h5><?= Html::encode($this->context->pageName) ?></h5>
     </div>
     <div class="card-body">
+
+        <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
+        <?= $form->field($model, 'sum')->textInput(['maxlength' => 10]) ?>
+        <?= $form->field($model, 'start_date')->widget(DatetimePicker::class, [])->textInput(['maxlength' => 19, 'autocomplete' => 'off']) ?>
+        <?= $form->field($model, 'end_date')->widget(DatetimePicker::class, [])->textInput(['maxlength' => 19, 'autocomplete' => 'off']) ?>
+
+        <?= $form->field($model, 'manufacturers')
+            ->dropDownList(ArrayHelper::map(Manufacturer::find()->all(), 'id', 'name'), [
+                'prompt' => 'Укажите производителя',
+                'multiple' => 'multiple'
+            ])->hint('Чтобы наценка заработала, необходимо указать категорию');
+        ?>
+
+        <div class="form-group row">
+            <div class="col-sm-4 col-lg-2">
+
+                <?= Html::label('categories'); ?>
+            </div>
+            <div class="col-sm-8 col-lg-10">
+                <?= Html::label(Yii::t('app/default', 'Поиск:'), 'search-markup-category', ['class' => 'control-label']); ?>
+                <?= Html::textInput('search', null, [
+                    'id' => 'search-markup-category',
+                    'class' => 'form-control',
+                    'onChange' => '$("#CategoryTree").jstree("search", $(this).val());'
+                ]); ?>
+                <br/>
+                <?php
+                echo \panix\ext\jstree\JsTree::widget([
+                    'id' => 'CategoryTree',
+                    'allOpen' => true,
+                    'data' => Category::find()->dataTree(1, null, ['switch' => 1]),
+                    'core' => [
+                        'strings' => [
+                            'Loading ...' => Yii::t('app/default', 'LOADING')
+                        ],
+                        'check_callback' => true,
+                        "themes" => [
+                            "stripes" => true,
+                            'responsive' => true,
+                            "variant" => "large",
+                            // 'name' => 'default-dark',
+                            // "dots" => true,
+                            // "icons" => true
+                        ],
+                    ],
+                    'plugins' => ['search', 'checkbox'],
+                    'checkbox' => [
+                        'three_state' => false,
+                        "keep_selected_style" => false,
+                        'tie_selection' => false,
+                    ],
+                ]);
+                ?>
+            </div>
+        </div>
+
+
         <?php
-        echo panix\engine\bootstrap\Tabs::widget([
-            'items' => [
-                [
-                    'label' => $model::t('TAB_MAIN'),
-                    'content' => $this->render('_main', ['form' => $form, 'model' => $model]),
-                    'active' => true,
-                    'options' => ['id' => 'main'],
-                ],
-                [
-                    'label' => $model::t('TAB_CATEGORIES'),
-                    'content' => $this->render('_categories', ['form' => $form, 'model' => $model]),
-                    'headerOptions' => [],
-                    'options' => ['id' => 'categories'],
-                ],
-            ],
-        ]);
+
+
+        foreach ($model->getCategories() as $id) {
+
+            $this->registerJs("$('#CategoryTree').checkNode({$id});", yii\web\View::POS_END, "checkNode{$id}");
+        }
+
+
         ?>
     </div>
     <div class="card-footer text-center">
