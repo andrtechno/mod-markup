@@ -12,7 +12,7 @@ class MarkupAsset extends AssetBundle {
         'position' => \yii\web\View::POS_END
     );
     public $js = [
-        'default.update.js',
+        'markup.js',
     ];
     public $depends = [
         'yii\web\JqueryAsset',

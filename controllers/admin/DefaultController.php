@@ -74,17 +74,17 @@ class DefaultController extends AdminController
 
         $post = Yii::$app->request->post();
 
-        if (!isset($post['Markup']['manufacturers'])) {
-            $model->manufacturers = [];
-        }
-        if (!isset($post['Markup']['categories']))
-            $model->categories = [];
+
 
 
 
         $isNew = $model->isNewRecord;
         if ($model->load($post)) {
-
+            if (!isset($post['Markup']['manufacturers'])) {
+                $model->manufacturers = [];
+            }
+            if (!isset($post['Markup']['categories']))
+                $model->categories = [];
             //if (!isset($post['Markup']['userRoles']))
             //    $model->userRoles = [];
 

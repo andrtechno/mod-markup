@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use panix\engine\bootstrap\ActiveForm;
 
-$form = ActiveForm::begin(['id'=>'discount-form']);
+$form = ActiveForm::begin(['id'=>'markup-form']);
 
 ?>
 <div class="card">

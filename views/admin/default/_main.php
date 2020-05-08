@@ -4,7 +4,7 @@ use panix\mod\shop\models\Manufacturer;
 use panix\engine\jui\DatetimePicker;
 
 /**
- * @var \panix\mod\markup\models\Discount $model
+ * @var \panix\mod\markup\models\Markup $model
  * @var \panix\engine\bootstrap\ActiveForm $form
  */
 
@@ -18,6 +18,6 @@ use panix\engine\jui\DatetimePicker;
     ->dropDownList(ArrayHelper::map(Manufacturer::find()->all(), 'id', 'name'), [
         'prompt' => 'Укажите производителя',
         'multiple' => 'multiple'
-    ])->hint('Чтобы скидка заработала, необходимо указать категорию');
+    ])->hint('Чтобы наценка заработала, необходимо указать категорию');
 ?>
 
