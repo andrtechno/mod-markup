@@ -15,8 +15,6 @@ use yii\db\Expression;
  * @property string $sum
  * @property array $categories Category ids
  * @property array $manufacturers Manufacturer ids
- * @property integer $start_date
- * @property integer $end_date
  *
  * @package panix\mod\markup\models
  *
@@ -67,7 +65,7 @@ class Markup extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'sum', 'start_date', 'end_date'], 'required'],
+            [['name', 'sum'], 'required'],
             ['switch', 'boolean'],
             ['name', 'string', 'max' => 255],
             ['sum', 'string', 'max' => 10],
@@ -76,8 +74,7 @@ class Markup extends ActiveRecord
             [['manufacturers','categories'], 'validateArray'],
             //[['manufacturers', 'categories'], 'default', 'value' => []],
 
-            [['start_date', 'end_date'], 'datetime', 'format' => 'php:Y-m-d H:i:s'],
-            [['id', 'name', 'switch', 'sum', 'start_date', 'end_date'], 'safe'],
+            [['id', 'name', 'switch', 'sum'], 'safe'],
         ];
     }
 
@@ -165,26 +162,6 @@ class Markup extends ActiveRecord
             ->delete('{{%markup__category}}', 'markup_id=:id', [':id' => $this->id])
             ->execute();
 
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function beforeSave($insert)
-    {
-        $this->start_date = strtotime($this->start_date);
-        $this->end_date = strtotime($this->end_date);
-        return parent::beforeSave($insert);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function afterFind()
-    {
-        $this->start_date = date('Y-m-d H:i:s', $this->start_date);
-        $this->end_date = date('Y-m-d H:i:s', $this->end_date);
-        parent::afterFind();
     }
 
     /**

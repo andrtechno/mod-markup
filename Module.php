@@ -26,7 +26,6 @@ class Module extends WebModule implements BootstrapInterface
 
             $this->discounts = Markup::find()
                 ->published()
-                ->applyDate()
                 ->all();
         }
     }

@@ -19,7 +19,6 @@ class MarkupSearch extends Markup
         return [
             [['id'], 'integer'],
             [['name'], 'safe'],
-            [['start_date', 'end_date'], 'date', 'format' => 'php:Y-m-d']
         ];
     }
 
@@ -64,7 +63,7 @@ class MarkupSearch extends Markup
         $query->andFilterWhere(['like', 'name', $this->name]);
         // $query->andFilterWhere(['like', 'start_date', strtotime($this->start_date)]);
 
-        foreach (['end_date', 'start_date', 'created_at', 'updated_at'] as $date) {
+        foreach (['created_at', 'updated_at'] as $date) {
             $query->andFilterWhere(['>=', $date, $this->{$date} ? strtotime($this->{$date} . ' 00:00:00') : null]);
             $query->andFilterWhere(['<=', $date, $this->{$date} ? strtotime($this->{$date} . ' 23:59:59') : null]);
         }

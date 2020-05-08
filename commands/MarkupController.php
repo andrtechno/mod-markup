@@ -57,8 +57,6 @@ print_r($discount->manufacturers);
             }
             $this->originalPrice = $this->owner->price;
             $this->discountPrice = $this->owner->price - $sum;
-
-            $this->discountEndDate = $discount->end_date;
             $this->discountSum = $discount->sum;
             $this->discountSumNum = $sum;
             $this->hasDiscount = $discount;

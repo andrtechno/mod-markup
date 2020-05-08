@@ -34,7 +34,6 @@ class MarkupBehavior extends Behavior
     public $discountPrice;
     public $discountSum;
     public $discountSumNum;
-    public $discountEndDate;
 
     /**
      * @var null
@@ -152,7 +151,6 @@ class MarkupBehavior extends Behavior
             }
             $this->originalPrice = $owner->price;
             $this->discountPrice = $owner->price - $sum;
-            $this->discountEndDate = $markup->end_date;
             $this->discountSum = $markup->sum;
             $this->hasDiscount = $markup;
 

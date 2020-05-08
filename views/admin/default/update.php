@@ -22,9 +22,6 @@ $form = ActiveForm::begin(['id' => 'markup-form']);
 
         <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
         <?= $form->field($model, 'sum')->textInput(['maxlength' => 10]) ?>
-        <?= $form->field($model, 'start_date')->widget(DatetimePicker::class, [])->textInput(['maxlength' => 19, 'autocomplete' => 'off']) ?>
-        <?= $form->field($model, 'end_date')->widget(DatetimePicker::class, [])->textInput(['maxlength' => 19, 'autocomplete' => 'off']) ?>
-
         <?= $form->field($model, 'manufacturers')
             ->dropDownList(ArrayHelper::map(Manufacturer::find()->all(), 'id', 'name'), [
                 'prompt' => 'Укажите производителя',
@@ -34,8 +31,7 @@ $form = ActiveForm::begin(['id' => 'markup-form']);
 
         <div class="form-group row">
             <div class="col-sm-4 col-lg-2">
-
-                <?= Html::label('categories'); ?>
+                <?= Html::label(Yii::t('markup/Markup','CATEGORIES')); ?>
             </div>
             <div class="col-sm-8 col-lg-10">
                 <?= Html::label(Yii::t('app/default', 'Поиск:'), 'search-markup-category', ['class' => 'control-label']); ?>

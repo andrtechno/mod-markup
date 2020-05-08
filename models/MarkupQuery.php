@@ -10,8 +10,4 @@ class MarkupQuery extends ActiveQuery {
         return $this->andWhere(['switch' => $state]);
     }
 
-    public function applyDate() {
-        return $this->andWhere(['<=', 'start_date', time()])->andWhere(['>=', 'end_date', time()]);
-    }
-
 }

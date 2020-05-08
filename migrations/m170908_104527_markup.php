@@ -27,8 +27,6 @@ class m170908_104527_markup extends Migration
             'id' => $this->primaryKey()->unsigned(),
             'name' => $this->string(255)->notNull(),
             'sum' => $this->string(10)->notNull(),
-            'start_date' => $this->integer(11)->null(),
-            'end_date' => $this->integer(11)->null(),
             'roles' => $this->string(255),
             'switch' => $this->boolean()->defaultValue(1),
             'created_at' => $this->integer(11)->null(),
@@ -51,8 +49,6 @@ class m170908_104527_markup extends Migration
 
 
         $this->createIndex('switch', Markup::tableName(), 'switch');
-        $this->createIndex('start_date', Markup::tableName(), 'start_date');
-        $this->createIndex('end_date', Markup::tableName(), 'end_date');
 
         $this->createIndex('markup_id', self::$categoryTable, 'markup_id');
         $this->createIndex('category_id', self::$categoryTable, 'category_id');
