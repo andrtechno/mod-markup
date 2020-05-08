@@ -2,7 +2,7 @@
 
 namespace panix\mod\markup;
 
-use panix\mod\markup\models\Discount;
+use panix\mod\markup\models\Markup;
 use Yii;
 use yii\base\BootstrapInterface;
 use panix\engine\WebModule;
@@ -24,7 +24,7 @@ class Module extends WebModule implements BootstrapInterface
     {
         if ($app->id != 'console' && $this->discounts === null) {
 
-            $this->discounts = Discount::find()
+            $this->discounts = Markup::find()
                 ->published()
                 ->applyDate()
                 ->all();

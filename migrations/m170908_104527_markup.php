@@ -50,9 +50,9 @@ class m170908_104527_markup extends Migration
         ], $this->tableOptions);
 
 
-        $this->createIndex('switch', Discount::tableName(), 'switch');
-        $this->createIndex('start_date', Discount::tableName(), 'start_date');
-        $this->createIndex('end_date', Discount::tableName(), 'end_date');
+        $this->createIndex('switch', Markup::tableName(), 'switch');
+        $this->createIndex('start_date', Markup::tableName(), 'start_date');
+        $this->createIndex('end_date', Markup::tableName(), 'end_date');
 
         $this->createIndex('markup_id', self::$categoryTable, 'markup_id');
         $this->createIndex('category_id', self::$categoryTable, 'category_id');
