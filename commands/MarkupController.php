@@ -7,12 +7,12 @@ use panix\engine\console\controllers\ConsoleController;
 use panix\mod\shop\models\Product;
 use panix\mod\markup\models\Markup;
 
-class DiscountController extends ConsoleController
+class MarkupController extends ConsoleController
 {
 
     public function actionIndex()
     {
-        $discounts = Yii::$app->getModule('discounts')->discounts;
+        $discounts = Yii::$app->getModule('markup')->discounts;
         foreach ($discounts as $discount) {
             $apply = false;
 
@@ -35,7 +35,7 @@ print_r($discount->manufacturers);
         }
         die;
         $tableName = Product::tableName();
-        $products = Yii::$app->db->createCommand("SELECT * FROM {$tableName}")->queryAll();
+        $products = Product::getDb()->createCommand("SELECT * FROM {$tableName}")->queryAll();
 
         $ids = [];
         foreach ($products as $key => $value) {
@@ -46,7 +46,7 @@ print_r($discount->manufacturers);
     }
 
 
-    protected function applyDiscount(Discount $discount)
+    protected function applyDiscount(Markup $discount)
     {
 
         if ($this->hasDiscount === null) {

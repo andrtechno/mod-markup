@@ -1,12 +1,12 @@
 
 
 // Process checked categories
-$("#discount-form").submit(function(){
+$("#markup-form").submit(function(){
     var checked = $("#CategoryTree li a.jstree-checked");
     checked.each(function(i, el){
         var id = $(el).attr("id").replace('node_', '').replace('_anchor', '');
 
-        $("#discount-form").append('<input type="hidden" name="Discount[categories][]" value="' + id + '" />');
+        $("#markup-form").append('<input type="hidden" name="Markup[categories][]" value="' + id + '" />');
     });
 
 });

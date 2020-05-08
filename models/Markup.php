@@ -24,7 +24,7 @@ use yii\db\Expression;
 class Markup extends ActiveRecord
 {
 
-    const MODULE_ID = 'discounts';
+    const MODULE_ID = 'markup';
 
     /**
      * @var array ids of categories to apply discount

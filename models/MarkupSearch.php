@@ -8,7 +8,7 @@ use panix\engine\data\ActiveDataProvider;
 use panix\mod\markup\models\Discount;
 
 
-class MarkupSearch extends Discount
+class MarkupSearch extends Markup
 {
 
     /**
@@ -41,7 +41,7 @@ class MarkupSearch extends Discount
      */
     public function search($params)
     {
-        $query = Discount::find();
+        $query = Markup::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

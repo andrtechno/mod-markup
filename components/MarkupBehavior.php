@@ -4,11 +4,11 @@ namespace panix\mod\markup\components;
 
 use Yii;
 use yii\db\ActiveRecord;
-use panix\mod\markup\models\Discount;
+use panix\mod\markup\models\Markup;
 use yii\base\Behavior;
 
 /**
- * Class DiscountBehavior
+ * Class MarkupBehavior
  *
  * @property mixed $hasDiscount
  * @property mixed $originalPrice
@@ -19,7 +19,7 @@ use yii\base\Behavior;
  *
  * @package panix\mod\markup\components
  */
-class DiscountBehavior extends Behavior
+class MarkupBehavior extends Behavior
 {
 
     /**
@@ -62,7 +62,7 @@ class DiscountBehavior extends Behavior
                     ->published()
                     ->applyDate()
                     ->all();*/
-                $this->discounts = Yii::$app->getModule('discounts')->discounts;
+                $this->discounts = Yii::$app->getModule('markup')->discounts;
             }
         }
 
@@ -75,7 +75,7 @@ class DiscountBehavior extends Behavior
         }
         // Personal product discount
         if (!empty($owner->discount)) {
-            $discount = new Discount();
+            $discount = new Markup();
             $discount->name = Yii::t('app/default', 'Скидка');
             $discount->sum = $owner->discount;
             $this->applyDiscount($discount);
@@ -126,7 +126,7 @@ class DiscountBehavior extends Behavior
 
         // Personal discount for users.
         if (!$user->isGuest && !empty($user->discount) && !$this->hasDiscount()) {
-            $discount = new Discount();
+            $discount = new Markup();
             $discount->name = Yii::t('app/default', 'Персональная скидка');
             $discount->sum = $user->discount;
             $this->applyDiscount($discount);
@@ -135,26 +135,26 @@ class DiscountBehavior extends Behavior
 
     /**
      * Apply discount to product and decrease its price
-     * @param Discount $discount
+     * @param Markup $markup
      */
-    protected function applyDiscount(Discount $discount)
+    protected function applyDiscount(Markup $markup)
     {
         /** @var \panix\mod\shop\models\Product $owner */
         $owner = $this->owner;
         if ($this->hasDiscount === null) {
 
-            $sum = $discount->sum;
+            $sum = $markup->sum;
             $this->discountSumNum = $sum;
-            if ('%' === substr($discount->sum, -1, 1)) {
+            if ('%' === substr($markup->sum, -1, 1)) {
                 $this->discountSumNum = ((double) $sum) / 100;
                 $sum = $owner->price * $this->discountSumNum;
 
             }
             $this->originalPrice = $owner->price;
             $this->discountPrice = $owner->price - $sum;
-            $this->discountEndDate = $discount->end_date;
-            $this->discountSum = $discount->sum;
-            $this->hasDiscount = $discount;
+            $this->discountEndDate = $markup->end_date;
+            $this->discountSum = $markup->sum;
+            $this->hasDiscount = $markup;
 
         }
 

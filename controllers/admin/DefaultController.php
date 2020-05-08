@@ -56,8 +56,8 @@ class DefaultController extends AdminController
         $model = Markup::findModel($id, Yii::t('markup/default', 'NO_FOUND_DISCOUNT'));
 
 
-        $this->pageName = ($model->isNewRecord) ? Yii::t('markup/default', 'Создание скидки') :
-            Yii::t('markup/default', 'Редактирование скидки');
+        $this->pageName = ($model->isNewRecord) ? Yii::t('markup/default', 'Создание наценки') :
+            Yii::t('markup/default', 'Редактирование наценки');
 
 
         $this->breadcrumbs[] = [
@@ -74,10 +74,10 @@ class DefaultController extends AdminController
 
         $post = Yii::$app->request->post();
 
-        if (!isset($post['Discount']['manufacturers'])) {
+        if (!isset($post['Markup']['manufacturers'])) {
             $model->manufacturers = [];
         }
-        if (!isset($post['Discount']['categories']))
+        if (!isset($post['Markup']['categories']))
             $model->categories = [];
 
 
@@ -85,7 +85,7 @@ class DefaultController extends AdminController
         $isNew = $model->isNewRecord;
         if ($model->load($post)) {
 
-            //if (!isset($post['Discount']['userRoles']))
+            //if (!isset($post['Markup']['userRoles']))
             //    $model->userRoles = [];
 
 
