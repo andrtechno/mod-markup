@@ -5,7 +5,7 @@ namespace panix\mod\markup\commands;
 use Yii;
 use panix\engine\console\controllers\ConsoleController;
 use panix\mod\shop\models\Product;
-use panix\mod\markup\models\Discount;
+use panix\mod\markup\models\Markup;
 
 class DiscountController extends ConsoleController
 {
