@@ -34,45 +34,12 @@ class m170908_104527_markup extends Migration
         ], $this->tableOptions);
 
 
-        $this->createTable(Markup::$categoryTable, [
-            'id' => $this->primaryKey()->unsigned(),
-            'markup_id' => $this->integer()->unsigned(),
-            'category_id' => $this->integer()->unsigned(),
-        ], $this->tableOptions);
-
-
-        $this->createTable(Markup::$manufacturerTable, [
-            'id' => $this->primaryKey()->unsigned(),
-            'markup_id' => $this->integer()->unsigned(),
-            'manufacturer_id' => $this->integer()->unsigned(),
-        ], $this->tableOptions);
-
-
-        $this->createTable(Markup::$supplierTable, [
-            'id' => $this->primaryKey()->unsigned(),
-            'markup_id' => $this->integer()->unsigned(),
-            'supplier_id' => $this->integer()->unsigned(),
-        ], $this->tableOptions);
-
-
         $this->createIndex('switch', Markup::tableName(), 'switch');
-
-        $this->createIndex('markup_id', Markup::$categoryTable, 'markup_id');
-        $this->createIndex('category_id', Markup::$categoryTable, 'category_id');
-
-        $this->createIndex('markup_id', Markup::$manufacturerTable, 'markup_id');
-        $this->createIndex('manufacturer_id', Markup::$manufacturerTable, 'manufacturer_id');
-
-        $this->createIndex('markup_id', Markup::$supplierTable, 'markup_id');
-        $this->createIndex('supplier_id', Markup::$supplierTable, 'supplier_id');
     }
 
     public function down()
     {
         $this->dropTable(Markup::tableName());
-        $this->dropTable(Markup::$categoryTable);
-        $this->dropTable(Markup::$manufacturerTable);
-        $this->dropTable(Markup::$supplierTable);
     }
 
 }

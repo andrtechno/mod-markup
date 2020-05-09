@@ -29,9 +29,7 @@ class MarkupBehavior extends Behavior
     /**
      * @var float product price before markup applied
      */
-    public $originalPrice;
     public $markupPrice;
-    public $discountSumNum;
 
     /**
      * @var null
@@ -61,18 +59,6 @@ class MarkupBehavior extends Behavior
         if ($this->hasMarkup !== null)
             return;
 
-       // $user = Yii::$app->user;
-       // if (Yii::$app instanceof \yii\console\Application) {
-       //     $user = null;
-        //}
-        // Personal product markup
-        /*if (!empty($owner->markup)) {
-            $markup = new Markup();
-            $markup->name = Yii::t('markup/default', 'Наценка');
-            $markup->sum = $owner->markup;
-            $this->applyMarkup($markup);
-        }*/
-
         // Process discount rules
         if (!$this->hasMarkup()) {
             foreach ($this->markups as $markup) {
@@ -94,14 +80,6 @@ class MarkupBehavior extends Behavior
                 }
             }
         }
-
-        // Personal markup for users.
-        /*if (!$this->hasMarkup()) {
-            $markup = new Markup();
-            $markup->name = Yii::t('markup/default', 'Персональная наценка');
-            $markup->sum = $user->markup;
-            $this->applyMarkup($markup);
-        }*/
     }
 
     /**

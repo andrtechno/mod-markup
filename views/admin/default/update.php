@@ -36,7 +36,7 @@ $form = ActiveForm::begin(['id' => 'markup-form']);
         ?>
         <div class="form-group row">
             <div class="col-sm-4 col-lg-2">
-                <?= Html::label(Yii::t('markup/Markup','CATEGORIES')); ?>
+                <?= Html::label(Yii::t('markup/Markup', 'CATEGORIES')); ?>
             </div>
             <div class="col-sm-8 col-lg-10">
                 <?= Html::label(Yii::t('app/default', 'Поиск:'), 'search-markup-category', ['class' => 'control-label']); ?>
@@ -79,12 +79,12 @@ $form = ActiveForm::begin(['id' => 'markup-form']);
 
         <?php
 
+        if (!$model->isNewRecord) {
+            foreach ($model->getCategories() as $id) {
 
-        foreach ($model->getCategories() as $id) {
-
-            $this->registerJs("$('#CategoryTree').checkNode({$id});", yii\web\View::POS_END, "checkNode{$id}");
+                $this->registerJs("$('#CategoryTree').checkNode({$id});", yii\web\View::POS_END, "checkNode{$id}");
+            }
         }
-
 
         ?>
     </div>

@@ -78,6 +78,9 @@ class DefaultController extends AdminController
             }
             if (!isset($post['Markup']['categories']))
                 $model->categories = [];
+
+            if (!isset($post['Markup']['suppliers']))
+                $model->suppliers = [];
             //if (!isset($post['Markup']['userRoles']))
             //    $model->userRoles = [];
 
