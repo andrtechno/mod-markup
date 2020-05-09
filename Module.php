@@ -11,22 +11,20 @@ use panix\mod\admin\widgets\sidebar\BackendNav;
 class Module extends WebModule implements BootstrapInterface
 {
 
-    public $icon = 'discount';
+    public $icon = 'markups';
 
     /**
      * @var null
      */
-    public $discounts = null;
+    public $markups = null;
     /**
      * @inheritdoc
      */
     public function bootstrap($app)
     {
-        if ($app->id != 'console' && $this->discounts === null) {
+        if ($app->id != 'console' && $this->markups === null) {
 
-            $this->discounts = Markup::find()
-                ->published()
-                ->all();
+            $this->markups = Markup::find()->published()->all();
         }
     }
 

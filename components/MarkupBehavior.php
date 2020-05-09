@@ -14,7 +14,6 @@ use yii\base\Behavior;
  * @property mixed $originalPrice
  * @property mixed $discountPrice
  * @property mixed $discountEndDate
- * @property mixed $discountSum
  * @property mixed $discountSumNum
  *
  * @package panix\mod\markup\components
@@ -23,22 +22,21 @@ class MarkupBehavior extends Behavior
 {
 
     /**
-     * @var mixed|null|Discount
+     * @var mixed|null|Markup
      */
-    public $hasDiscount = null;
+    public $hasMarkup = null;
 
     /**
-     * @var float product price before discount applied
+     * @var float product price before markup applied
      */
     public $originalPrice;
-    public $discountPrice;
-    public $discountSum;
+    public $markupPrice;
     public $discountSumNum;
 
     /**
      * @var null
      */
-    private $discounts = null;
+    private $markups = null;
 
     public function events()
     {
@@ -55,104 +53,76 @@ class MarkupBehavior extends Behavior
         /** @var \panix\mod\shop\models\Product $owner */
         $owner = $this->owner;
         if (!$owner->isNewRecord) {
-            if ($this->discounts === null) {
-
-                /*$this->discounts = Discount::find()
-                    ->published()
-                    ->applyDate()
-                    ->all();*/
-                $this->discounts = Yii::$app->getModule('markup')->discounts;
+            if ($this->markups === null) {
+                $this->markups = Yii::$app->getModule('markup')->markups;
             }
         }
 
-        if ($this->hasDiscount !== null)
+        if ($this->hasMarkup !== null)
             return;
 
-        $user = Yii::$app->user;
-        if (Yii::$app instanceof \yii\console\Application) {
-            $user = null;
-        }
-        // Personal product discount
-        if (!empty($owner->discount)) {
-            $discount = new Markup();
-            $discount->name = Yii::t('app/default', 'Скидка');
-            $discount->sum = $owner->discount;
-            $this->applyDiscount($discount);
-        }
+       // $user = Yii::$app->user;
+       // if (Yii::$app instanceof \yii\console\Application) {
+       //     $user = null;
+        //}
+        // Personal product markup
+        /*if (!empty($owner->markup)) {
+            $markup = new Markup();
+            $markup->name = Yii::t('markup/default', 'Наценка');
+            $markup->sum = $owner->markup;
+            $this->applyMarkup($markup);
+        }*/
 
         // Process discount rules
-        if (!$this->hasDiscount()) {
-
-            foreach ($this->discounts as $discount) {
-
+        if (!$this->hasMarkup()) {
+            foreach ($this->markups as $markup) {
                 $apply = false;
 
                 // Validate category
-                if ($this->searchArray($discount->categories, array_values($this->ownerCategories))) {
-                    $apply = true;
-                    // Validate manufacturer
+                if ($this->searchArray($markup->categories, array_values($this->ownerCategories))) {
 
 
-                    if (!empty($discount->manufacturers)) {
-                        $apply = in_array($owner->manufacturer_id, $discount->manufacturers);
-                    }
-
-                    if (Yii::$app->user->can('Admin') !== true) {
-                        //$apply = false;
+                }
+                // Validate manufacturer
+                if (!empty($markup->manufacturers)) {
+                    if(in_array($owner->manufacturer_id, $markup->manufacturers)){
+                        $apply = true;
                     }
                 }
 
-
-                // Apply discount by user role. Discount for admin disabled.
-                /*if (!empty($discount->userRoles)) {
-                    //if (!empty($discount->userRoles) && $user->checkAccess('Admin') !== true) {
-                    $apply = false;
-
-                    foreach ($discount->userRoles as $role) {
-                        if ($user->checkAccess($role)) {
-                            $apply = true;
-                            break;
-                        }
-                    }
-                }*/
-
-
                 if ($apply === true) {
-                    $this->applyDiscount($discount);
+                    $this->applyMarkup($markup);
                 }
             }
         }
 
-        // Personal discount for users.
-        if (!$user->isGuest && !empty($user->discount) && !$this->hasDiscount()) {
-            $discount = new Markup();
-            $discount->name = Yii::t('app/default', 'Персональная скидка');
-            $discount->sum = $user->discount;
-            $this->applyDiscount($discount);
-        }
+        // Personal markup for users.
+        /*if (!$this->hasMarkup()) {
+            $markup = new Markup();
+            $markup->name = Yii::t('markup/default', 'Персональная наценка');
+            $markup->sum = $user->markup;
+            $this->applyMarkup($markup);
+        }*/
     }
 
     /**
-     * Apply discount to product and decrease its price
+     * Apply markup to product and decrease its price
      * @param Markup $markup
      */
-    protected function applyDiscount(Markup $markup)
+    protected function applyMarkup(Markup $markup)
     {
         /** @var \panix\mod\shop\models\Product $owner */
         $owner = $this->owner;
-        if ($this->hasDiscount === null) {
+        if ($this->hasMarkup === null) {
 
             $sum = $markup->sum;
-            $this->discountSumNum = $sum;
             if ('%' === substr($markup->sum, -1, 1)) {
-                $this->discountSumNum = ((double) $sum) / 100;
-                $sum = $owner->price * $this->discountSumNum;
+                $sum = $owner->price_purchase * ((double)$sum) / 100;
 
             }
-            $this->originalPrice = $owner->price;
-            $this->discountPrice = $owner->price - $sum;
-            $this->discountSum = $markup->sum;
-            $this->hasDiscount = $markup;
+            // $this->originalPrice = $owner->price_purchase;
+            $owner->price = $owner->price_purchase + $sum;
+            $this->hasMarkup = $markup;
 
         }
 
@@ -193,9 +163,9 @@ class MarkupBehavior extends Behavior
     /**
      * @return bool
      */
-    public function hasDiscount()
+    public function hasMarkup()
     {
-        return !($this->hasDiscount === null);
+        return !($this->hasMarkup === null);
     }
 
 }
