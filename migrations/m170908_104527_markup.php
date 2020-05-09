@@ -17,9 +17,6 @@ use panix\mod\markup\models\Markup;
 class m170908_104527_markup extends Migration
 {
 
-    public static $categoryTable = '{{%markup__category}}';
-    public static $manufacturerTable = '{{%markup__manufacturer}}';
-
     public function up()
     {
 
@@ -29,39 +26,53 @@ class m170908_104527_markup extends Migration
             'sum' => $this->string(10)->notNull(),
             'roles' => $this->string(255),
             'switch' => $this->boolean()->defaultValue(1),
+            'manufacturers' => $this->text()->null(),
+            'categories' => $this->text()->null(),
+            'suppliers' => $this->text()->null(),
             'created_at' => $this->integer(11)->null(),
             'updated_at' => $this->integer(11)->null(),
         ], $this->tableOptions);
 
 
-        $this->createTable(self::$categoryTable, [
+        $this->createTable(Markup::$categoryTable, [
             'id' => $this->primaryKey()->unsigned(),
             'markup_id' => $this->integer()->unsigned(),
             'category_id' => $this->integer()->unsigned(),
         ], $this->tableOptions);
 
 
-        $this->createTable(self::$manufacturerTable, [
+        $this->createTable(Markup::$manufacturerTable, [
             'id' => $this->primaryKey()->unsigned(),
             'markup_id' => $this->integer()->unsigned(),
             'manufacturer_id' => $this->integer()->unsigned(),
         ], $this->tableOptions);
 
 
+        $this->createTable(Markup::$supplierTable, [
+            'id' => $this->primaryKey()->unsigned(),
+            'markup_id' => $this->integer()->unsigned(),
+            'supplier_id' => $this->integer()->unsigned(),
+        ], $this->tableOptions);
+
+
         $this->createIndex('switch', Markup::tableName(), 'switch');
 
-        $this->createIndex('markup_id', self::$categoryTable, 'markup_id');
-        $this->createIndex('category_id', self::$categoryTable, 'category_id');
+        $this->createIndex('markup_id', Markup::$categoryTable, 'markup_id');
+        $this->createIndex('category_id', Markup::$categoryTable, 'category_id');
 
-        $this->createIndex('markup_id', self::$manufacturerTable, 'markup_id');
-        $this->createIndex('manufacturer_id', self::$manufacturerTable, 'manufacturer_id');
+        $this->createIndex('markup_id', Markup::$manufacturerTable, 'markup_id');
+        $this->createIndex('manufacturer_id', Markup::$manufacturerTable, 'manufacturer_id');
+
+        $this->createIndex('markup_id', Markup::$supplierTable, 'markup_id');
+        $this->createIndex('supplier_id', Markup::$supplierTable, 'supplier_id');
     }
 
     public function down()
     {
         $this->dropTable(Markup::tableName());
-        $this->dropTable(self::$categoryTable);
-        $this->dropTable(self::$manufacturerTable);
+        $this->dropTable(Markup::$categoryTable);
+        $this->dropTable(Markup::$manufacturerTable);
+        $this->dropTable(Markup::$supplierTable);
     }
 
 }

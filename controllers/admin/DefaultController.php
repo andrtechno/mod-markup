@@ -53,7 +53,7 @@ class DefaultController extends AdminController
 
     public function actionUpdate($id = false)
     {
-        $model = Markup::findModel($id, Yii::t('markup/default', 'NO_FOUND_DISCOUNT'));
+        $model = Markup::findModel($id, Yii::t('markup/default', 'NO_FOUND_MARKUP'));
 
 
         $this->pageName = ($model->isNewRecord) ? Yii::t('markup/default', 'Создание наценки') :

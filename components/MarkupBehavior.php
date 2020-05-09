@@ -80,8 +80,7 @@ class MarkupBehavior extends Behavior
 
                 // Validate category
                 if ($this->searchArray($markup->categories, array_values($this->ownerCategories))) {
-
-
+                    $apply = true;
                 }
                 // Validate manufacturer
                 if (!empty($markup->manufacturers)) {

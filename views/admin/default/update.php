@@ -26,9 +26,14 @@ $form = ActiveForm::begin(['id' => 'markup-form']);
             ->dropDownList(ArrayHelper::map(Manufacturer::find()->all(), 'id', 'name'), [
                 'prompt' => 'Укажите производителя',
                 'multiple' => 'multiple'
-            ])->hint('Чтобы наценка заработала, необходимо указать категорию');
+            ]);
         ?>
-
+        <?= $form->field($model, 'suppliers')
+            ->dropDownList(ArrayHelper::map(\panix\mod\shop\models\Supplier::find()->all(), 'id', 'name'), [
+                'prompt' => 'Укажите поставщика',
+                'multiple' => 'multiple'
+            ]);
+        ?>
         <div class="form-group row">
             <div class="col-sm-4 col-lg-2">
                 <?= Html::label(Yii::t('markup/Markup','CATEGORIES')); ?>

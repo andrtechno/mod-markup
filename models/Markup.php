@@ -2,6 +2,7 @@
 
 namespace panix\mod\markup\models;
 
+use panix\engine\CMS;
 use Yii;
 use panix\engine\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
@@ -15,7 +16,7 @@ use yii\db\Expression;
  * @property string $sum
  * @property array $categories Category ids
  * @property array $manufacturers Manufacturer ids
- *
+ * @property array $suppliers Suppliers ids
  * @package panix\mod\markup\models
  *
  */
@@ -34,6 +35,14 @@ class Markup extends ActiveRecord
      */
     protected $_manufacturers;
 
+    /**
+     * @var array ids of manufacturers to apply discount
+     */
+    protected $_suppliers;
+
+    public static $categoryTable = '{{%markup__category}}';
+    public static $manufacturerTable = '{{%markup__manufacturer}}';
+    public static $supplierTable = '{{%markup__supplier}}';
 
     //public $useRules;
 
@@ -71,7 +80,7 @@ class Markup extends ActiveRecord
             ['sum', 'string', 'max' => 10],
             [['created_at', 'updated_at'], 'integer'],
             //[['discountManufacturers', 'discountCategories', 'userRoles'], 'each', 'rule' => ['integer']],
-            [['manufacturers','categories'], 'validateArray'],
+            [['manufacturers','categories','suppliers'], 'validateArray'],
             //[['manufacturers', 'categories'], 'default', 'value' => []],
 
             [['id', 'name', 'switch', 'sum'], 'safe'],
@@ -118,7 +127,7 @@ class Markup extends ActiveRecord
         if (is_array($this->_categories))
             return $this->_categories;
 
-        $this->_categories = self::getDb()->createCommand('SELECT category_id FROM {{%markup__category}} WHERE markup_id=:id')
+        $this->_categories = self::getDb()->createCommand('SELECT category_id FROM '.self::$categoryTable.' WHERE markup_id=:id')
             ->bindValue(':id', $this->id)
             ->queryColumn();
 
@@ -142,7 +151,7 @@ class Markup extends ActiveRecord
         if (is_array($this->_manufacturers))
             return $this->_manufacturers;
 
-        $this->_manufacturers = self::getDb()->createCommand('SELECT manufacturer_id FROM {{%markup__manufacturer}} WHERE markup_id=:id')
+        $this->_manufacturers = self::getDb()->createCommand('SELECT manufacturer_id FROM '.self::$manufacturerTable.' WHERE markup_id=:id')
             ->bindValue(':id', $this->id)
             ->queryColumn();
 
@@ -151,15 +160,42 @@ class Markup extends ActiveRecord
     }
 
     /**
+     * @param array $data
+     */
+    public function setSuppliers($data)
+    {
+        $this->_suppliers = $data;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getSuppliers()
+    {
+        if (is_array($this->_suppliers))
+            return $this->_suppliers;
+
+        $this->_suppliers = self::getDb()->createCommand('SELECT supplier_id FROM '.self::$supplierTable.' WHERE markup_id=:id')
+            ->bindValue(':id', $this->id)
+            ->queryColumn();
+
+
+        return $this->_suppliers;
+    }
+    /**
      * Clear discount manufacturer and category
      */
     public function clearRelations()
     {
         self::getDb()->createCommand()
-            ->delete('{{%markup__manufacturer}}', 'markup_id=:id', [':id' => $this->id])
+            ->delete(self::$manufacturerTable, 'markup_id=:id', [':id' => $this->id])
             ->execute();
         self::getDb()->createCommand()
-            ->delete('{{%markup__category}}', 'markup_id=:id', [':id' => $this->id])
+            ->delete(self::$categoryTable, 'markup_id=:id', [':id' => $this->id])
+            ->execute();
+        self::getDb()->createCommand()
+            ->delete(self::$supplierTable, 'markup_id=:id', [':id' => $this->id])
             ->execute();
 
     }
@@ -183,7 +219,7 @@ class Markup extends ActiveRecord
         // Process manufacturers
         if (!empty($this->_manufacturers)) {
             foreach ($this->_manufacturers as $id) {
-                self::getDb()->createCommand()->insert('{{%markup__manufacturer}}', [
+                self::getDb()->createCommand()->insert(self::$manufacturerTable, [
                     'markup_id' => $this->id,
                     'manufacturer_id' => $id,
                 ])->execute();
@@ -193,14 +229,23 @@ class Markup extends ActiveRecord
         // Process categories
         if (!empty($this->_categories)) {
             foreach (array_unique($this->_categories) as $id) {
-
-                self::getDb()->createCommand()->insert('{{%markup__category}}', [
+                self::getDb()->createCommand()->insert(self::$categoryTable, [
                     'markup_id' => $this->id,
                     'category_id' => $id,
+                ])->execute();
+            }
+        }
+        // Process suppliers
+        if (!empty($this->_suppliers)) {
+            foreach (array_unique($this->_suppliers) as $id) {
+                self::getDb()->createCommand()->insert(self::$supplierTable, [
+                    'markup_id' => $this->id,
+                    'supplier_id' => $id,
                 ])->execute();
             }
         }
 
         parent::afterSave($insert, $changedAttributes);
     }
+
 }
