@@ -26,9 +26,9 @@ class m170908_104527_markup extends Migration
             'sum' => $this->string(10)->notNull(),
             'roles' => $this->string(255),
             'switch' => $this->boolean()->defaultValue(1),
-            'manufacturers' => $this->text()->null(),
-            'categories' => $this->text()->null(),
-            'suppliers' => $this->text()->null(),
+            'manufacturers_data' => $this->text()->null(),
+            'categories_data' => $this->text()->null(),
+            'suppliers_data' => $this->text()->null(),
             'created_at' => $this->integer(11)->null(),
             'updated_at' => $this->integer(11)->null(),
         ], $this->tableOptions);

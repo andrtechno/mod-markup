@@ -56,8 +56,7 @@ class DefaultController extends AdminController
         $model = Markup::findModel($id, Yii::t('markup/default', 'NO_FOUND_MARKUP'));
 
 
-        $this->pageName = ($model->isNewRecord) ? Yii::t('markup/default', 'Создание наценки') :
-            Yii::t('markup/default', 'Редактирование наценки');
+        $this->pageName = Yii::t('markup/default', ($model->isNewRecord) ? 'CREATE':'UPDATE');
 
 
         $this->breadcrumbs[] = [
@@ -71,13 +70,7 @@ class DefaultController extends AdminController
         $this->breadcrumbs[] = $this->pageName;
         \panix\mod\markup\MarkupAsset::register($this->view);
 
-
         $post = Yii::$app->request->post();
-
-
-
-
-
         $isNew = $model->isNewRecord;
         if ($model->load($post)) {
             if (!isset($post['Markup']['manufacturers'])) {
