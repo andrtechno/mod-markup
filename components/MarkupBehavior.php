@@ -75,6 +75,13 @@ class MarkupBehavior extends Behavior
                     }
                 }
 
+                // Validate manufacturer
+                if (!empty($markup->suppliers)) {
+                    if(in_array($owner->supplier_id, $markup->suppliers)){
+                        $apply = true;
+                    }
+                }
+
                 if ($apply === true) {
                     $this->applyMarkup($markup);
                 }

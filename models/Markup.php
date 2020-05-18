@@ -51,6 +51,7 @@ class Markup extends ActiveRecord
     {
         return \yii\helpers\ArrayHelper::merge([
             'manufacturers' => self::t('MANUFACTURERS'),
+            'suppliers' => self::t('SUPPLIERS'),
             'userRoles' => self::t('USER_ROLES'),
         ], parent::attributeLabels());
     }
