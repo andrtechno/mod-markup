@@ -54,6 +54,7 @@ class Module extends WebModule implements BootstrapInterface
                         'label' => Yii::t('markup/default', 'MODULE_NAME'),
                         'url' => ['/admin/markup/default/index'],
                         'icon' => $this->icon,
+                        'visible' => Yii::$app->user->can('/markup/admin/default/index') || Yii::$app->user->can('/markup/admin/default/*')
                     ],
                 ],
             ],
