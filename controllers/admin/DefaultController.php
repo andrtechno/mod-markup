@@ -95,4 +95,8 @@ class DefaultController extends AdminController
         return $this->render('update', ['model' => $model]);
     }
 
+    public function actionCreate()
+    {
+        return $this->actionUpdate(false);
+    }
 }
