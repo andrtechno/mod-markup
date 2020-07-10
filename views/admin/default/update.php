@@ -14,6 +14,9 @@ $form = ActiveForm::begin(['id' => 'markup-form']);
  * @var \panix\engine\bootstrap\ActiveForm $form
  */
 ?>
+<div class="alert alert-info">
+    <?= Yii::t('markup/default','ALERT_HINT');?>
+</div>
 <div class="card">
     <div class="card-header">
         <h5><?= Html::encode($this->context->pageName) ?></h5>

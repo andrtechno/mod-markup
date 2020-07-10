@@ -98,18 +98,18 @@ class MarkupBehavior extends Behavior
         /** @var \panix\mod\shop\models\Product $owner */
         $owner = $this->owner;
         if ($this->hasMarkup === null) {
+            if ($owner->price_purchase) {
+                $sum = $markup->sum;
+                if ('%' === substr($markup->sum, -1, 1)) {
+                    $sum = $owner->price_purchase * ((double)$sum) / 100;
 
-            $sum = $markup->sum;
-            if ('%' === substr($markup->sum, -1, 1)) {
-                $sum = $owner->price_purchase * ((double)$sum) / 100;
-
+                }
+                // $this->originalPrice = $owner->price_purchase;
+                $owner->price = $owner->price_purchase + $sum;
+                $this->hasMarkup = $markup;
             }
-            // $this->originalPrice = $owner->price_purchase;
-            $owner->price = $owner->price_purchase + $sum;
-            $this->hasMarkup = $markup;
 
         }
-
     }
 
     /**
