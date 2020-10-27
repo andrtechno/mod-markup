@@ -66,18 +66,19 @@ class MarkupBehavior extends Behavior
 
                 // Validate category
                 if ($this->searchArray($markup->categories, array_values($this->ownerCategories))) {
+
                     $apply = true;
                 }
                 // Validate manufacturer
                 if (!empty($markup->manufacturers)) {
-                    if(in_array($owner->manufacturer_id, $markup->manufacturers)){
+                    if (in_array($owner->manufacturer_id, $markup->manufacturers)) {
                         $apply = true;
                     }
                 }
 
                 // Validate manufacturer
                 if (!empty($markup->suppliers)) {
-                    if(in_array($owner->supplier_id, $markup->suppliers)){
+                    if (in_array($owner->supplier_id, $markup->suppliers)) {
                         $apply = true;
                     }
                 }
@@ -131,15 +132,15 @@ class MarkupBehavior extends Behavior
      */
     public function getOwnerCategories()
     {
-        // $id = 'discount_product_categories' . $this->owner->date_update;
-        //$data = Yii::$app->cache->get($id);
+        $id = 'markup_product_categories';
+        $data = Yii::$app->cache->get($id);
 
 
-        //if ($data === false) {
-        $data = \yii\helpers\ArrayHelper::map($this->owner->categories, 'id', 'id');
-        //$data = $this->owner->categories;
-        //Yii::$app->cache->set($id, $data);
-        // }
+        if ($data === false) {
+            $data = \yii\helpers\ArrayHelper::map($this->owner->categories, 'id', 'id');
+            //  $data = $this->owner->categories;
+            Yii::$app->cache->set($id, $data);
+        }
 
         return $data;
     }
