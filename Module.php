@@ -22,7 +22,7 @@ class Module extends WebModule implements BootstrapInterface
      */
     public function bootstrap($app)
     {
-        if ($app->id != 'console' && $this->markups === null) {
+        if ($this->markups === null) { //$app->id != 'console' &&
 
             $this->markups = Markup::find()->published()->all();
         }

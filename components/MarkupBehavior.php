@@ -89,7 +89,7 @@ class MarkupBehavior extends Behavior
             }
         }
     }
-
+public $markupSum;
     /**
      * Apply markup to product and decrease its price
      * @param Markup $markup
@@ -108,6 +108,7 @@ class MarkupBehavior extends Behavior
                 // $this->originalPrice = $owner->price_purchase;
                 $owner->price = $owner->price_purchase + $sum;
                 $this->hasMarkup = $markup;
+                $this->markupSum = (double)$sum;
             }
 
         }

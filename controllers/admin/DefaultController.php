@@ -2,6 +2,7 @@
 
 namespace panix\mod\markup\controllers\admin;
 
+use panix\engine\CMS;
 use Yii;
 use panix\engine\controllers\AdminController;
 use panix\mod\markup\models\Markup;
