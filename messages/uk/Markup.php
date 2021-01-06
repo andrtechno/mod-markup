@@ -9,5 +9,6 @@ return [
     'HINT_MANUFACTURERS' => 'Оберіть виробника',
     'HINT_USER_ROLES' => '<strong>Увага:</strong> Націнка для адміністраторів заборонені.',
     'CATEGORIES' => 'Категорії',
-    'SUPPLIERS' => 'Постачальники'
+    'SUPPLIERS' => 'Постачальники',
+
 ];

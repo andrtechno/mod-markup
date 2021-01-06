@@ -9,5 +9,8 @@ return [
     'HINT_MANUFACTURERS' => 'Выберите производителя',
     'HINT_USER_ROLES' => '<strong>Внимание:</strong> Наценка для администраторов запрещены.',
     'CATEGORIES' => 'Категории',
-    'SUPPLIERS'=>'Поставщики'
+    'SUPPLIERS'=>'Поставщики',
+    'SELECT_CURRENCY' => '&mdash; Выбрать валюту &mdash;',
+    'SELECT_MANUFACTURER'=>'&mdash; Выбрать производителя &mdash;',
+    'SELECT_SUPPLIER'=>'&mdash; Укажите поставщика &mdash;',
 ];

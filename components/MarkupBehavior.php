@@ -35,6 +35,7 @@ class MarkupBehavior extends Behavior
      * @var null
      */
     private $markups = null;
+    public $markupSum;
 
     public function events()
     {
@@ -89,7 +90,7 @@ class MarkupBehavior extends Behavior
             }
         }
     }
-public $markupSum;
+
     /**
      * Apply markup to product and decrease its price
      * @param Markup $markup
@@ -105,6 +106,9 @@ public $markupSum;
                     $sum = $owner->price_purchase * ((double)$sum) / 100;
 
                 }
+               // if($markup->currency_id){
+
+               // }
                 // $this->originalPrice = $owner->price_purchase;
                 $owner->price = $owner->price_purchase + $sum;
                 $this->hasMarkup = $markup;

@@ -25,15 +25,22 @@ $form = ActiveForm::begin(['id' => 'markup-form']);
 
         <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
         <?= $form->field($model, 'sum')->textInput(['maxlength' => 10]) ?>
+
+        <?php /*$form->field($model, 'currency_id')
+            ->dropDownList(ArrayHelper::map(Yii::$app->currency->getCurrencies(), 'id', 'iso'), [
+                'prompt' => html_entity_decode($model::t('SELECT_CURRENCY')),
+            ]);*/
+        ?>
+
         <?= $form->field($model, 'manufacturers')
             ->dropDownList(ArrayHelper::map(Manufacturer::find()->all(), 'id', 'name'), [
-                'prompt' => 'Укажите производителя',
+                'prompt' => html_entity_decode($model::t('SELECT_MANUFACTURER')),
                 'multiple' => 'multiple'
             ]);
         ?>
         <?= $form->field($model, 'suppliers')
             ->dropDownList(ArrayHelper::map(\panix\mod\shop\models\Supplier::find()->all(), 'id', 'name'), [
-                'prompt' => 'Укажите поставщика',
+                'prompt' => html_entity_decode($model::t('SELECT_SUPPLIER')),
                 'multiple' => 'multiple'
             ]);
         ?>

@@ -230,11 +230,8 @@ class Markup extends ActiveRecord
                     ]));
                 }
             }
-
         }
-
     }
-
 }
 
 
