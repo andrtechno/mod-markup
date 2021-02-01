@@ -3,7 +3,7 @@
     "description": "Module markup",
     "keywords": ["pixelion-cms", "module", "markup"],
     "homepage": "https://github.com/andrtechno/mod-markup",
-    "type": "yii2-extension",
+    "type": "pixelion-module",
     "license": "MIT",
     "authors": [
         {
