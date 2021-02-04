@@ -7,6 +7,8 @@ use Yii;
 use yii\base\BootstrapInterface;
 use panix\engine\WebModule;
 use panix\mod\admin\widgets\sidebar\BackendNav;
+use yii\console\Application;
+use yii\db\Exception;
 
 class Module extends WebModule implements BootstrapInterface
 {
@@ -17,14 +19,19 @@ class Module extends WebModule implements BootstrapInterface
      * @var null
      */
     public $markups = null;
+
     /**
      * @inheritdoc
      */
     public function bootstrap($app)
     {
-        if ($this->markups === null) { //$app->id != 'console' &&
 
-            $this->markups = Markup::find()->published()->all();
+        if ($this->markups === null) {
+            try {
+                $this->markups = Markup::find()->published()->all();
+            } catch (Exception $exception) {
+
+            }
         }
     }
 
