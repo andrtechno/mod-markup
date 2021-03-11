@@ -6,7 +6,7 @@ use panix\mod\markup\models\Markup;
 use Yii;
 use yii\base\BootstrapInterface;
 use panix\engine\WebModule;
-use panix\mod\admin\widgets\sidebar\BackendNav;
+use app\web\themes\dashboard\sidebar\BackendNav;
 use yii\console\Application;
 use yii\db\Exception;
 

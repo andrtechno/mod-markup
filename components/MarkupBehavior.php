@@ -62,6 +62,7 @@ class MarkupBehavior extends Behavior
 
         // Process discount rules
         if (!$this->hasMarkup()) {
+			if($this->markups){
             foreach ($this->markups as $markup) {
                 $apply = false;
 
@@ -88,6 +89,7 @@ class MarkupBehavior extends Behavior
                     $this->applyMarkup($markup);
                 }
             }
+			}
         }
     }
 
