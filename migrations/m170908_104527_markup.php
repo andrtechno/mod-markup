@@ -24,7 +24,7 @@ class m170908_104527_markup extends Migration
             'currency_id' => $this->integer()->unsigned(),
             'sum' => $this->string(10)->notNull(),
             'roles' => $this->string(255),
-            'switch' => $this->boolean()->defaultValue(1),
+            'switch' => $this->boolean()->defaultValue(true),
             'manufacturers_data' => $this->text()->null(),
             'categories_data' => $this->text()->null(),
             'suppliers_data' => $this->text()->null(),
